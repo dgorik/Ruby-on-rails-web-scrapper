@@ -8,9 +8,9 @@ class MockupsController < ApplicationController
     render plain: "Mockup not found", status: :not_found
   end
 
-  def create
-    Rails.logger.info "Form submitted with params: #{params.inspect}"
-    render plain: "Form submitted successfully"
+  def analyse_page
+    url = params["url"]
+    puts "This is my url: #{url}"
   end
   
 end

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check 
 
-  post "/show-page", to: "mockups#show-page"
+  post "/analyse_page", to: "mockups#analyse_page"
 
   # ^^ health check endpoint at /up. Returns 200 if the application booted with no issues
 
