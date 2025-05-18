@@ -18,4 +18,6 @@ Rails.application.routes.draw do
 
   resources :content_pages if Rails.env.development?
 
+  resources :history_pages if Rails.env.development?
+  
 end

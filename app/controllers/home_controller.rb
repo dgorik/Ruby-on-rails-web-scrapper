@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
   def index
+    @content_pages = ContentPage.order(created_at: :desc).limit(20)
   end
 end

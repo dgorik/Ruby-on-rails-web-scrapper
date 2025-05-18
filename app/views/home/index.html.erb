@@ -8,16 +8,23 @@
 
 # think about adding form validations
 
-<main>
+<main class="history-section">
   <section>
     <h2>Previously Analyzed Pages</h2>
-    <ul>
-      <li><a href="/mockups/show-page" target="_blank" rel="noopener">Wikipedia — Ruby (Programming Language)</a></li>
-      <li><a href="/mockups/show-page" target="_blank" rel="noopener">Wikipedia — Mount Everest</a></li>
-      <li><a href="/mockups/show-page" target="_blank" rel="noopener">MDN — Introduction to HTML</a></li>
-      <li><a href="/mockups/show-page" target="_blank" rel="noopener">Stanford Encyclopedia of Philosophy — Utilitarianism</a></li>
-      <li><a href="/mockups/show-page" target="_blank" rel="noopener">NASA — James Webb Space Telescope</a></li>
-      <li><a href="/mockups/show-page" target="_blank" rel="noopener">Wikipedia — HTTP Cookie</a></li>
-    </ul>
+    
+    <% if @content_pages.any? %>
+      <ul class="history-list">
+        <% @content_pages.each do |page| %>
+          <li class="history-item">
+            <%= link_to page.title.presence || page.url, 
+                  history_page_path(page),  # Uses the named route
+                  target: "_blank", 
+                  rel: "noopener" %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="no-history">No pages analyzed yet. Enter a URL above to begin!</p>
+    <% end %>
   </section>
 </main>
