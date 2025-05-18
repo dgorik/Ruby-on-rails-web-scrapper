@@ -6,7 +6,7 @@ module Extraction
       
       doc = Nokogiri::HTML(html)
       headings = doc.css('h1, h2, h3').map { |h| { level: h.name, text: h.text } }
-      { toc: headings }
+      # { toc: headings }
     rescue => e
       { error: "TOC extraction failed: #{e.message}" }
     end

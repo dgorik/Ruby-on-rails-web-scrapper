@@ -6,7 +6,7 @@ module Extraction
         
         text = Nokogiri::HTML(html).at('body').text
         words = text.split(/\W+/).reject(&:empty?)
-        { word_count: words.size }
+        word_counter = words.size 
     rescue => e
         { error: "Word count failed: #{e.message}" }
     end

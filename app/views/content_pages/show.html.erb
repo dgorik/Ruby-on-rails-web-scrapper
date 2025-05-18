@@ -1,0 +1,15 @@
+<h1><%= @content_page.title %></h1>
+<p>
+  <a href="<%= @content_page.url %>" target="_blank" rel="noopener">
+    <%= @content_page.url %>
+  </a>
+</p>
+<p>Word count: <%= @content_page.word_count %></p>
+<h3>Top 10 Words</h3>
+<ul>
+  <% @content_page.top_10_words.each do |word, count| %>
+    <li><%= word %>: <%= count %></li>
+  <% end %>
+</ul>
+<h3>Table of Contents</h3>
+<p><%= @content_page.table_of_contents %></p>

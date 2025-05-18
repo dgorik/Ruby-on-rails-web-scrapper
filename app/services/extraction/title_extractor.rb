@@ -5,7 +5,7 @@ module Extraction
       return { error: "Failed to fetch URL" } unless html
       
       doc = Nokogiri::HTML(html)
-      { title: doc.title }
+      title = doc.title
     rescue => e
       { error: "Title extraction failed: #{e.message}" }
     end
