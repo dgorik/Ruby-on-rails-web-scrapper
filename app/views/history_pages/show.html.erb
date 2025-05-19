@@ -1,50 +1,48 @@
-<div class="content-page">
+<div>
   <h1><%= @content_page.title %></h1>
 
-  <div class="page-url">
-    <a href="<%= @content_page.url %>" target="_blank" rel="noopener noreferrer" class="text-muted">
+  <div>
+    <a href="<%= @content_page.url %>" target="_blank" rel="noopener noreferrer">
       <%= @content_page.url %>
     </a>
   </div>
 
-  <div class="stats-section">
-    <p class="word-count">
-      Word count: <%= @content_page.word_count %>
-    </p>
-
-    <% if @content_page.top_10_words.present? %>
-      <div class="top-words">
-        <h3>Top 10 Words</h3>
-        <ul class="word-cloud">
-          <% @content_page.top_10_words.each do |word, count| %>
-            <li>
-              <span class="word"><%= word %></span>
-              <span class="count badge bg-secondary"><%= count %></span>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+  <div>
+    <h3>Table of Contents</h3>
+    <% if @content_page.table_of_contents.present? %>
+      <ul>
+        <% @content_page.table_of_contents.each do |item| %>
+          <li>
+            <%= item['text'] %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No table of contents available</p>
     <% end %>
-
-    <div class="toc-section">
-      <h3>Table of Contents</h3>
-      <% toc_data = JSON.parse(@content_page.table_of_contents || '[]') rescue [] %>
-      <% if toc_data.any? %>
-        <ul class="toc-list">
-          <% toc_data.each do |heading| %>
-            <li class="toc-item level-<%= heading['level'].to_s.last %>">
-              <%= heading['text'] %>
-              <% if heading['anchor'].present? %>
-                <a href="#<%= heading['anchor'] %>" class="toc-anchor">#</a>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      <% else %>
-        <p class="text-muted">No table of contents available</p>
-      <% end %>
-    </div>
   </div>
 
-  <%= link_to '← Back to History', root_path, class: 'btn btn-outline-primary mt-4' %>
+  <div>
+    <p>Word count: <%= @content_page.word_count %></p>
+
+    <% if @content_page.top_10_words.present? %>
+      <h2>Top 10 Most Frequent Words</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Word</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @content_page.top_10_words.each do |word, count| %>
+            <tr>
+              <td><%= word %></td>
+              <td><%= count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
 </div>

@@ -1,11 +1,14 @@
 module Extraction
   class TitleExtractor
-    def self.call(url)
-      html = ::Url::Fetcher.fetch(url)
-      return { error: "Failed to fetch URL" } unless html
+    def self.call(html)
+      title = ::Url::HtmlCleaner.title_fetch(html)
       
-      doc = Nokogiri::HTML(html)
-      title = doc.title
+      if title.nil? || title.strip.empty?
+        { error: "Failed to fetch title" }
+      else
+        title
+      end
+
     rescue => e
       { error: "Title extraction failed: #{e.message}" }
     end

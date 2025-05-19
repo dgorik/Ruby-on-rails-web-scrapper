@@ -12,6 +12,8 @@ class ContentPagesController < ApplicationController
       table_of_contents: result[:table_of_contents]
     )
 
+    puts  @page_analysis.inspect
+
     redirect_to content_page_path(@page_analysis)
     
   end

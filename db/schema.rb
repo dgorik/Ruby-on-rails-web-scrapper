@@ -10,11 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_18_143206) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_19_163245) do
   create_table "content_pages", force: :cascade do |t|
     t.string "title"
     t.string "url"
-    t.text "table_of_contents"
+    t.json "table_of_contents"
     t.integer "word_count"
     t.json "top_10_words"
     t.datetime "created_at", null: false

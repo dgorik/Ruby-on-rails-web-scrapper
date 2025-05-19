@@ -7,12 +7,11 @@ module Url
 
     def self.fetch(url)
       # First validate the URL
-      unless UrlValidator.valid?(url)
-        return { error: "Invalid URL format" }
-      end
 
       # Then attempt to fetch
       html = URI.open(url, read_timeout: TIMEOUT).read
+
+      clean_html = HtmlCleaner.fetch(html)
       
     rescue OpenURI::HTTPError
       { error: "Website returned an error" }

@@ -1,10 +1,19 @@
 class PageAnalyzer
   def self.call(url)
 
-    title = Extraction::TitleExtractor.call(url)
-    table_of_contents = Extraction::TocExtractor.call(url)
-    word_count = Extraction::WordCounter.call(url)
-    top_10_words = Extraction::Top10WordsExtractor.call(url)
+    unless Url::UrlValidator.valid?(url)
+        return { error: "Invalid URL format" }
+    end
+
+    html = URI.open(url).read #explain why we are doing it like this
+
+    title = Extraction::TitleExtractor.call(html)
+
+    clean_html = Url::Fetcher.fetch(url)
+
+    table_of_contents = Extraction::TocExtractor.call(clean_html)
+    word_count = Extraction::WordCounter.call(clean_html)
+    top_10_words = Extraction::Top10WordsExtractor.call(clean_html)
 
     result = {
       title: title,
@@ -19,7 +28,3 @@ class PageAnalyzer
     { error: "Failed to analyze: #{e.message}" }
   end
 end
-    # puts "This is my title: #{title}"
-    # puts "This is my content: #{table_of_contents}"
-    # puts "This is my content: #{word_count}"
-    # puts "This is my content: #{top_10_words}"
