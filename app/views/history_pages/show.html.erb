@@ -9,17 +9,7 @@
 
   <div>
     <h3>Table of Contents</h3>
-    <% if @content_page.table_of_contents.present? %>
-      <ul>
-        <% @content_page.table_of_contents.each do |item| %>
-          <li>
-            <%= item['text'] %>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p>No table of contents available</p>
-    <% end %>
+    <%= render_toc(@content_page.table_of_contents) %>
   </div>
 
   <div>
@@ -45,4 +35,6 @@
       </table>
     <% end %>
   </div>
+
+  <%= link_to '← Back to History', root_path %>
 </div>

@@ -1,6 +1,10 @@
 module TocHelper
-  def render_toc(toc_content)  # Renamed from html_content to toc_content
+  def render_toc(toc_content)
+    
+    return 'No table of content to display' if toc_content.empty?# Renamed from html_content to toc_content
+
     toc_items = JSON.parse(toc_content, symbolize_names: true)
+
     return '' if toc_items.empty?
     
     content_tag :nav, class: 'toc-container', role: 'navigation', 'aria-label': 'Table of Contents' do

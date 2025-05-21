@@ -11,7 +11,7 @@ module Url
       # Then attempt to fetch
       html = URI.open(url, read_timeout: TIMEOUT).read
 
-      clean_html = HtmlCleaner.fetch(html)
+      # clean_html = HtmlCleaner.fetch(html)
       
     rescue OpenURI::HTTPError
       { error: "Website returned an error" }

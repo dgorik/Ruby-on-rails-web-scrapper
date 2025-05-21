@@ -4,7 +4,7 @@ class CreateContentPages < ActiveRecord::Migration[8.0]
       t.string :title
       t.string :url
       t.json :table_of_contents
-      t.integer :word_count
+      t.string :word_count
       t.json :top_10_words
 
       t.timestamps

@@ -1,64 +1,65 @@
 module Extraction
   class TocExtractor
-    # Common patterns to identify TOC containers
     TOC_PATTERNS = %w[toc table-of-contents tableofcontents contents].freeze
 
-    # Main interface - extracts TOC items from HTML fragment
-    # @param toc_content [String] HTML fragment containing a TOC
-    # @return [Array<Hash>] Structured TOC items
     def self.call(html)
       doc = Nokogiri::HTML(html)
-      toc_container = find_toc_container(doc)
-      return [] unless toc_container
-      
-      extract_toc_items(toc_container).to_json
+      container = find_valid_toc_container(doc)
+      return [] unless container
+
+      extract_items(container).to_json
     end
-    
+
     private
-    
-    # Finds the TOC container element
-    # @param doc [Nokogiri::HTML::Document]
-    # @return [Nokogiri::XML::Element, nil]
-    def self.find_toc_container(doc)
+
+    # Finds a TOC container that passes the validity checks
+    def self.find_valid_toc_container(doc)
       # 1. Check explicit IDs/classes first
-      container = doc.at_css('#toc, .toc, #table-of-contents, .table-of-contents')
-      return container if container
-      
-      # 2. Search for TOC patterns in IDs/classes
+      candidates = [
+        doc.at_css('#toc'),
+        doc.at_css('.toc'),
+        doc.at_css('#table-of-contents'),
+        doc.at_css('.table-of-contents')
+      ].compact
+
+      # 2. Add containers found by TOC patterns in IDs/classes
       TOC_PATTERNS.each do |pattern|
-        container = doc.at_css("[id*='#{pattern}'], [class*='#{pattern}']")
-        return container if container
+        candidates << doc.at_css("[id*='#{pattern}']") if doc.at_css("[id*='#{pattern}']")
+        candidates << doc.at_css("[class*='#{pattern}']") if doc.at_css("[class*='#{pattern}']")
       end
-      
-      # 3. Check semantic nav elements
-      doc.css('nav').find do |nav|
-        nav['role'] == 'navigation' || 
-        (nav['class'] && nav['class'].downcase.include?('toc'))
+
+      # 3. Add nav elements with role or class indicating toc
+      navs = doc.css('nav').select do |nav|
+        nav['role'] == 'navigation' || (nav['class'] && nav['class'].downcase.include?('toc'))
       end
+      candidates.concat(navs)
+
+      # Remove duplicates and nils
+      candidates.uniq!
+      candidates.compact!
+
+      # Return the first candidate passing validation
+      candidates.find { |c| valid_toc?(c) }
     end
-    
-    # Extracts structured items from TOC container
-    # @param container [Nokogiri::XML::Element]
-    # @return [Array<Hash>]
-    def self.extract_toc_items(container)
-      container.css('a[href]').each_with_object([]) do |link, items|
-        href = link['href'].to_s
-        next if href.empty?
-        
-        items << {
+
+    # Validates container structure for TOC
+    def self.valid_toc?(container)
+      list = container.at_css('ul, ol')
+      return false unless list
+
+      list.css('li').any? { |li| li.at_css('a[href^="#"]') }
+    end
+
+    # Extract TOC items from validated container
+    def self.extract_items(container)
+      container.css('a[href^="#"]').map do |link|
+        {
           title: link.text.strip,
-          depth: calculate_depth(link),
-          href: href,
-          fragment: href.start_with?('#') ? href[1..-1] : nil
+          depth: link.ancestors('ul, ol').count,
+          href: link['href'],
+          fragment: link['href'][1..] # remove leading #
         }
       end
-    end
-    
-    # Calculates nesting depth of a TOC item
-    # @param element [Nokogiri::XML::Element]
-    # @return [Integer]
-    def self.calculate_depth(element)
-      element.ancestors('ul, ol').count
     end
   end
 end

@@ -1,23 +1,14 @@
 Rails.application.routes.draw do
-  get "up" => "rails/health#show", as: :rails_health_check 
-  # ^^ health check endpoint at /up. Returns 200 if the application booted with no issues
+  # Health check route
+  get "up" => "rails/health#show", as: :rails_health_check
 
-  # get 'show-page', to: 'mockups#show' 
-
-  # When a user makes a GET request to /show-page, run the show action in the MockupsController.
-
-  post "create", to: "content_pages#create"
-
-  # root to: redirect('/mockups/list-pages')
-
+  # Root path
   root "home#index"
 
-  # Redirects the root URL (/) to /mockups/list-pages.
-
-  resources :mockups if Rails.env.development?
-
-  resources :content_pages if Rails.env.development?
-
-  resources :history_pages if Rails.env.development?
   
+  if Rails.env.development?
+    resources :mockups, only: [:show]
+    resources :history_pages, only: [:show]
+    resources :content_pages, only: [:create, :show]
+  end
 end

@@ -9,11 +9,13 @@ class PageAnalyzer
 
     title = Extraction::TitleExtractor.call(html)
 
-    clean_html = Url::Fetcher.fetch(url)
+    # clean_html = Url::Fetcher.fetch(url)
 
-    table_of_contents = Extraction::TocExtractor.call(clean_html)
-    word_count = Extraction::WordCounter.call(clean_html)
-    top_10_words = Extraction::Top10WordsExtractor.call(clean_html)
+    # also think about removing html clener entirely
+
+    table_of_contents = Extraction::TocExtractor.call(html)
+    word_count = Extraction::WordCounter.call(html)
+    top_10_words = Extraction::Top10WordsExtractor.call(html)
 
     result = {
       title: title,

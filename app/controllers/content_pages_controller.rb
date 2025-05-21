@@ -12,8 +12,6 @@ class ContentPagesController < ApplicationController
       table_of_contents: result[:table_of_contents]
     )
 
-    puts  @page_analysis.inspect
-
     redirect_to content_page_path(@page_analysis)
     
   end
@@ -26,3 +24,5 @@ class ContentPagesController < ApplicationController
     end
   end
 end
+
+# You analyze each page once and store only the results (title, word count, etc.) instead of full HTML. This approach is better because it’s faster, uses less storage, reduces server load, and keeps the code simpler—making your app more efficient and easier to maintain.

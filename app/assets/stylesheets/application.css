@@ -92,3 +92,21 @@ button:hover {
   background-color: #042d73;
 }
 
+.toc-list {
+  list-style-type: none; 
+  padding-left: 0;        
+  margin-left: 0;         
+}
+
+.toc-item {
+  margin-left: calc(var(--toc-depth) * 1em);
+}
+
+.toc-list li {
+  margin-bottom: 8px;
+}
+
+.toc-item.toc-depth-1 { padding-left: 1em; }
+.toc-item.toc-depth-2 { padding-left: 2em; }
+.toc-item.toc-depth-3 { padding-left: 3em; }
+
