@@ -1,5 +1,9 @@
 <header>
   <h1>Web Page Analyzer</h1>
+  <% flash.each do |key, message| %>
+    <div class="flash <%= key %>"><%= message %></div>
+  <% end %>
+  
   <form method="post" action="/content_pages">
     <input type="url" name="url" placeholder="Enter the URL..." required>
     <button type="submit">Analyze</button>

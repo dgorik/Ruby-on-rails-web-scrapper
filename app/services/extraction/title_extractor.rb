@@ -1,7 +1,8 @@
 module Extraction
   class TitleExtractor
     def self.call(html)
-      title = ::Url::HtmlCleaner.title_fetch(html)
+      doc = Nokogiri::HTML(html)
+      title = doc.title
       
       if title.nil? || title.strip.empty?
         { error: "Failed to fetch title" }

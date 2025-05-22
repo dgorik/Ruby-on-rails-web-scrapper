@@ -11,10 +11,11 @@ module Url
       # Then attempt to fetch
       html = URI.open(url, read_timeout: TIMEOUT).read
 
-      # clean_html = HtmlCleaner.fetch(html)
+      html
       
     rescue OpenURI::HTTPError
-      { error: "Website returned an error" }
+      { error: "Website returned an error" } 
+      # if you pass a link to a private google doc
     rescue SocketError
       { error: "Couldn't connect to the server" }
     rescue Timeout::Error

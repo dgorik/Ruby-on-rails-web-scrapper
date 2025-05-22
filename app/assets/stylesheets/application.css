@@ -110,3 +110,11 @@ button:hover {
 .toc-item.toc-depth-2 { padding-left: 2em; }
 .toc-item.toc-depth-3 { padding-left: 3em; }
 
+.flash {
+  margin-bottom: 2em; /* space below each flash message */
+  font-weight: bold;
+}
+
+.flash.alert {
+  color: red;          /* red text for errors */
+}

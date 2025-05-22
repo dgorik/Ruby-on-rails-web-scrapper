@@ -1,29 +1,32 @@
 class PageAnalyzer
   def self.call(url)
+    # Step 1: Validate URL
+    return { error: "Invalid URL format" } unless Url::UrlValidator.valid?(url)
 
-    unless Url::UrlValidator.valid?(url)
-        return { error: "Invalid URL format" }
-    end
+    # Step 2: Fetch HTML from URL
+    html = Url::Fetcher.fetch(url)
+    return html if html.is_a?(Hash) && html[:error] # HTML fetch failure
 
-    html = URI.open(url).read #explain why we are doing it like this
-
+    # Step 3: Extract components
     title = Extraction::TitleExtractor.call(html)
+    return title if title.is_a?(Hash) && title[:error]
 
-    # clean_html = Url::Fetcher.fetch(url)
+    toc = Extraction::TocExtractor.call(html)
+    return toc if toc.is_a?(Hash) && toc[:error]
 
-    # also think about removing html clener entirely
-
-    table_of_contents = Extraction::TocExtractor.call(html)
     word_count = Extraction::WordCounter.call(html)
-    top_10_words = Extraction::Top10WordsExtractor.call(html)
+    return word_count if word_count.is_a?(Hash) && word_count[:error]
 
-    result = {
+    top_words = Extraction::Top10WordsExtractor.call(html)
+    return top_words if top_words.is_a?(Hash) && top_words[:error]
+
+    # Step 4: Return structured result
+    {
       title: title,
       url: url,
-      table_of_contents: table_of_contents,
+      table_of_contents: toc,
       word_count: word_count,
-      top_10_words: top_10_words,
-      
+      top_10_words: top_words
     }
 
   rescue => e
