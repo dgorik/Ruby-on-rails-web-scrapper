@@ -3,32 +3,32 @@
   <% flash.each do |key, message| %>
     <div class="flash <%= key %>"><%= message %></div>
   <% end %>
-  
+
   <form method="post" action="/content_pages">
     <input type="url" name="url" placeholder="Enter the URL..." required>
     <button type="submit">Analyze</button>
   </form>
 </header>
 
-# think about adding form validations
-
-<main class="history-section">
+<main>
   <section>
     <h2>Previously Analyzed Pages</h2>
     
     <% if @content_pages.any? %>
-      <ul class="history-list">
+      <ul>
         <% @content_pages.each do |page| %>
-          <li class="history-item">
-            <%= link_to page.title.presence || page.url, 
-                  history_page_path(page),  # Uses the named route
+          <li>
+            <%= link_to page.title, 
+                  history_page_path(page[:id]),  # Uses the named route
                   target: "_blank", 
                   rel: "noopener" %>
           </li>
         <% end %>
       </ul>
     <% else %>
-      <p class="no-history">No pages analyzed yet. Enter a URL above to begin!</p>
+      <p>No pages analyzed yet. Enter a URL above to begin!</p>
     <% end %>
   </section>
 </main>
+
+#google what target: "_blank", rel: "noopener" %> do

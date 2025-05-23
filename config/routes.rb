@@ -7,8 +7,11 @@ Rails.application.routes.draw do
 
   
   if Rails.env.development?
+    resources :home, only: [:show]
     resources :mockups, only: [:show]
     resources :history_pages, only: [:show]
     resources :content_pages, only: [:create, :show]
   end
 end
+
+#please note that I have decided to keep mockups 

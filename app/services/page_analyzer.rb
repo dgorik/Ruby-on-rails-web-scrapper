@@ -1,7 +1,12 @@
 class PageAnalyzer
   def self.call(url)
     # Step 1: Validate URL
+
+    puts Url::UrlValidator.valid?(url)
+
     return { error: "Invalid URL format" } unless Url::UrlValidator.valid?(url)
+
+    #maybe here we can return a url and if there is an error return that error message
 
     # Step 2: Fetch HTML from URL
     html = Url::Fetcher.fetch(url)
@@ -28,6 +33,7 @@ class PageAnalyzer
       word_count: word_count,
       top_10_words: top_words
     }
+
 
   rescue => e
     { error: "Failed to analyze: #{e.message}" }

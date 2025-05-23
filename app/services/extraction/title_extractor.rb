@@ -5,7 +5,7 @@ module Extraction
       title = doc.title
       
       if title.nil? || title.strip.empty?
-        { error: "Failed to fetch title" }
+        "No title for this page"
       else
         title
       end
@@ -17,3 +17,5 @@ module Extraction
 end
 
 # create a seperate service that would validate if the link is good
+
+#ask a question if there is a page without a title, do you want to to render other info or do we want to return "cannot be fetched"

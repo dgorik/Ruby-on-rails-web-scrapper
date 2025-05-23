@@ -111,7 +111,7 @@ button:hover {
 .toc-item.toc-depth-3 { padding-left: 3em; }
 
 .flash {
-  margin-bottom: 2em; /* space below each flash message */
+  margin-bottom: 1em;
   font-weight: bold;
 }
 

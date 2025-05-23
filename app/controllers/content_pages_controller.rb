@@ -16,7 +16,13 @@ class ContentPagesController < ApplicationController
       table_of_contents: result[:table_of_contents]
     )
   
-    redirect_to content_page_path(@page_analysis)
+    puts @page_analysis.inspect()
+    
+    redirect_to content_page_path(@page_analysis[:id])
+
+    #ask chat gpt if above with [:id] is okay - used to be just @page_analysis
+
+    # why are you using redirect and not render
     
   end
 
@@ -24,7 +30,7 @@ class ContentPagesController < ApplicationController
     # Here, fetch the last created PageAnalysis (or any logic you want)
     @content_page = ContentPage.find_by(id: params[:id])
     unless @content_page
-      redirect_to "/", alert: "No page analysis found"
+      redirect_to root_path, alert: "No page analysis found"
     end
   end
 end

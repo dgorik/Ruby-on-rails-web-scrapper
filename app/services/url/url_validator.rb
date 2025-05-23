@@ -10,7 +10,7 @@ module Url
     def self.valid?(url)
       uri = parse(url)
       # url_ok?(uri)
-    rescue InvalidUrlError
+    rescue 
       false
     end
 
@@ -33,11 +33,6 @@ module Url
     rescue URI::InvalidURIError => e
       raise InvalidUrlError, e.message
     end
-    # def self.url_ok?(uri)
-    #   open(uri,read_timeout: 5) { |response| response.status[0].to_i == 200 }
-    # rescue OpenURI::HTTPError, SocketError, Errno::ECONNREFUSED, Errno::ETIMEDOUT
-    #   false
-    # end
   end
 end
 
@@ -53,3 +48,13 @@ end
 
 # Sending a real HTTP request (a HEAD or GET) to check the status code (like 200 OK) confirms the link is actually responding.
 
+# talk about what client side check is validating
+
+
+# # Proper scheme (http:// or https://)
+
+# Valid domain characters
+
+# No illegal characters or spaces
+
+# Overall URL format correctness

@@ -5,7 +5,11 @@ module TocHelper
 
     toc_items = JSON.parse(toc_content, symbolize_names: true)
 
+    # is symbolize_names necessary?
+
     return '' if toc_items.empty?
+
+    # is there a reason why we are checking if toc is empty twice
     
     content_tag :nav, class: 'toc-container', role: 'navigation', 'aria-label': 'Table of Contents' do
       content_tag :ul, class: 'toc-list' do
