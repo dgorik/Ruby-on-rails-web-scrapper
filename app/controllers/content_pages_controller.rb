@@ -15,8 +15,6 @@ class ContentPagesController < ApplicationController
       top_10_words: result[:top_10_words],
       table_of_contents: result[:table_of_contents]
     )
-  
-    puts @page_analysis.inspect()
     
     redirect_to content_page_path(@page_analysis[:id])
 

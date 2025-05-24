@@ -1,6 +1,8 @@
 module Extraction
   class Top10WordsExtractor
 
+    # English stop words commonly excluded from text analysis
+    # Source: Based on NLTK English stop words corpus
     STOP_WORDS = %w[
       a about above after again against all am an and any are aren't as
       at be because been before being below between both but by can't cannot
@@ -16,20 +18,26 @@ module Extraction
       we're we've were weren't what what's when when's where where's which while
       who who's whom why why's with won't would wouldn't you you'd you'll
       you're you've your yours yourself yourselves
-    ]
+    ].freeze
 
-    def self.call(html)
+    def self.call(doc)
 
-      text = Nokogiri::HTML(html).at('body').text.gsub(/\s+/, ' ').strip #talk about this in PR
+      # Extract clean text from body element
+      body = doc.at('body') || doc
+      text = body.text.gsub(/\s+/, ' ').strip
 
-      text = text.split.select { |word| word.length >= 3 }.join(' ') #removing short words
+      # Filter out words shorter than 3 characters early in the process
+      text = text.split.select { |word| word.length >= 3 }.join(' ')
 
+      # Clean and process words: remove punctuation and numbers, filter stop words
       words = text
-                .gsub(/[^\w\s]/, '') #remove punctuation
-                .gsub(/\b\d+\b/, '') #remove standalone numbers
+                .gsub(/[^\w\s]/, '') # Remove punctuation
+                .gsub(/\b\d+\b/, '') # Remove standalone numbers
                 .split
-                .reject { |w| STOP_WORDS.include?(w.downcase) || STOP_WORDS.include?(w.upcase) }
+                .map(&:downcase) # Normalize case for consistent processing
+                .reject { |word| STOP_WORDS.include?(word) }
 
+      # Count word frequencies and return top 10 most frequent words
       words
         .tally
         .sort_by { |_word, count| -count }
@@ -37,7 +45,7 @@ module Extraction
         .to_h
 
     rescue => e
-      { error: "Top 10 Most Words count failed: #{e.message}" }
+      { error: "Top 10 word extraction failed: #{e.message}" }
     end
 
   end

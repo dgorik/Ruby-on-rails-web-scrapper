@@ -2,8 +2,8 @@ module Extraction
   class WordCounter
     extend ActionView::Helpers::NumberHelper
 
-    def self.call(html)
-        text = Nokogiri::HTML(html).at('body').text
+    def self.call(doc)
+        text = doc.at('body').text
         words = text.split(/\W+/).reject(&:empty?)
         number_with_delimiter(words.size, delimiter: ",")
     rescue => e
