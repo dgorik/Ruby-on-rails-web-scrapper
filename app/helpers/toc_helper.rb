@@ -14,9 +14,7 @@ module TocHelper
     content_tag :nav, class: 'toc-container', role: 'navigation', 'aria-label': 'Table of Contents' do
       content_tag :ul, class: 'toc-list' do
         toc_items.map do |item|
-          content_tag :li, class: "toc-item toc-depth-#{item[:depth]}" do
-            link_to item[:title], item[:href], data: { turbolinks: 'false' }
-          end
+          content_tag :li, item[:title], class: "toc-item toc-depth-#{item[:depth]}" 
         end.join.html_safe
       end
     end

@@ -1,15 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  title: MyString
-  url: MyString
-  table_of_contents: MyText
-  word_count: 1
-  top_10_words: 
-
-two:
-  title: MyString
-  url: MyString
-  table_of_contents: MyText
-  word_count: 1
-  top_10_words: 
+valid_page:
+  title: "Getting Started with Basecamp"
+  url: "https://basecamp.com/help/getting-started"
+  table_of_contents:
+    - title: "Welcome"
+      depth: 1
+    - title: "Creating Your First Project"
+      depth: 2
+  word_count: "980"
+  top_10_words:
+    basecamp: 15
+    team: 8

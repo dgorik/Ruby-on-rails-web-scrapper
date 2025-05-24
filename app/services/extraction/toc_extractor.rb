@@ -2,8 +2,8 @@ module Extraction
   class TocExtractor
     TOC_PATTERNS = %w[toc table-of-contents tableofcontents contents].freeze
 
-    def self.call(doc)
-      
+    def self.call(html)
+      doc = Nokogiri::HTML(html)
       container = find_valid_toc_container(doc)
       return [] unless container
 
