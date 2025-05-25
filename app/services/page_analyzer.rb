@@ -1,7 +1,6 @@
 class PageAnalyzer
   def self.call(url)
-    # Step 1: Validate URL
-
+  
     return { error: "Invalid URL format" } unless Url::UrlValidator.valid?(url)
 
     html = Url::Fetcher.fetch(url)
@@ -33,3 +32,12 @@ class PageAnalyzer
     { error: "Failed to analyze: #{e.message}" }
   end
 end
+
+# This service handles analyzing a web page from a given URL.
+# It validates the URL, fetches the HTML, extracts the title and table of contents,
+# cleans the HTML, counts words, and finds the top 10 words.
+# If any step fails, it returns an error message.
+
+# Why this matters:
+# Keeping all analysis steps in one service makes the code organized and easy to maintain.
+# It also helps catch errors early and keeps the controllers simple by moving the heavy work here.

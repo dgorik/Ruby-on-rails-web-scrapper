@@ -37,3 +37,24 @@
   </div>
   
 </div>
+
+<!-- 
+  This template renders a content page with the following sections:
+
+  How it works:
+  - The page title inside an <h1> tag.
+  - A clickable URL linking to the original content, opening in a new tab with security attributes.
+  - A Table of Contents section rendered via the helper method.
+  - If available (considering there is a slim chance a page has no words), a table showing the top 10 most frequent words on the page, with their counts.
+
+  Controller:
+  - This page is rendered by the ContentPagesController in the show action:
+
+  Why this matters:
+  - Structuring the content clearly improves readability and accessibility.
+  - Separating TOC rendering into a helper keeps the template concise.
+  - Conditional display of word frequency data prevents empty tables.
+
+  In production, this template could be extended to:
+  - Add pagination for very long TOCs or word frequency tables.
+-->

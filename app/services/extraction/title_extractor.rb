@@ -16,6 +16,19 @@ module Extraction
   end
 end
 
-# create a seperate service that would validate if the link is good
+# This class extracts the page title from an HTML document.
 
-#ask a question if there is a page without a title, do you want to to render other info or do we want to return "cannot be fetched"
+# How it works:
+# - Parses the input HTML into a Nokogiri document.
+# - Extracts the content of the <title> element.
+# - Returns the title text if it exists and is not empty.
+# - Returns a fallback string if the title is missing or blank.
+# - Catches exceptions during parsing or extraction and returns a descriptive error.
+
+# Why this matters:
+# Encapsulating title extraction into it's own  class simplifies testing and debugging.
+# It provides a clear interface for extracting page titles.
+
+# In production, this logic could be extended to:
+# - Handle alternative title sources such as <meta> tags.
+# - Support extraction from dynamically generated content (e.g., is a title appears after JavaScript script loads and runs).

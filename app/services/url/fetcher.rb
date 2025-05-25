@@ -3,19 +3,13 @@ require 'nokogiri'
 
 module Url
   class Fetcher
-    TIMEOUT = 3 # seconds
+    TIMEOUT = 3
 
     def self.fetch(url)
-      # First validate the URL
-
-      # Then attempt to fetch
       html = URI.open(url, read_timeout: TIMEOUT).read
-
       html
-      
     rescue OpenURI::HTTPError
-      { error: "Website returned an error" } 
-      # if you pass a link to a private google doc
+      { error: "Website returned an error" }
     rescue SocketError
       { error: "Couldn't connect to the server" }
     rescue Timeout::Error
@@ -24,18 +18,17 @@ module Url
   end
 end
 
-# explain the difference between all these errors
 
-# http://example..com - returns couldn't connect to the server
+# This module takes the HTML from a URL using Ruby’s open-uri.
 
-# https://docs.google.com/document/d/1HQLa-uqQ3BV2glVUNdQHgxdqxFs2AaE4lOHR29NR_nQ/edit?tab=t.0 - returns website returned an error
+# It tries to fetch the page with a 3-second timeout.
+# If something goes wrong, it catches these errors:
+# - HTTPError: The site gave back an error (private Google doc for example or 404)
+# - SocketError: Can’t connect to the server (incorrect hostname or non-existing domain)
+# - Timeout::Error: The site took too long to respond
 
-
-
-
-
-# # Responds at all (no DNS errors, no connection timeout)
-
-# Returns a valid HTTP status (200 OK, etc.)
-
-# Handles redirects, errors (404, 500, etc.)
+# In production, we might want:
+# - Increase/decrease timeout depending on how slow/fast the server is
+# - We can improve reliability by handling more error types, like 
+    # SSL errors (when a site has certificate issues)
+    # Redirects (when a URL automatically forwards to another page).

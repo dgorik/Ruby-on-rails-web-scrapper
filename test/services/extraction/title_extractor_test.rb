@@ -12,7 +12,10 @@ class Extraction::TitleExtractorTest < ActiveSupport::TestCase
     result = Extraction::TitleExtractor.call(html)
     assert_equal "No title for this page", result
   end
+
+  test "returns fallback message when title is missing" do
+    html = "<html><head></head><body></body></html>"
+    result = Extraction::TitleExtractor.call(html)
+    assert_equal "No title for this page", result
+  end
 end
-
-
-#basic unit test and for more complex applications we can add checks for nil title or when title doesn't exist 

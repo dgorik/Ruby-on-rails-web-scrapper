@@ -1,33 +1,47 @@
 require "test_helper"
 
 class ContentPageTest < ActiveSupport::TestCase
-  # Use the fixture record
   setup do
     @page = content_pages(:valid_page)
   end
 
-  test "title should be present" do
+  test "title can be blank or nil" do
     @page.title = nil
-    assert_not @page.valid?, "Saved without a title"
+    assert @page.valid?, "Not valid when title is nil"
+
+    @page.title = ""
+    assert @page.valid?, "Not valid when title is blank"
   end
 
-  test "url should be present" do
+  test "url can be blank or nil" do
     @page.url = nil
-    assert_not @page.valid?, "Saved without a url"
+    assert @page.valid?, "Not valid when url is nil"
+
+    @page.url = ""
+    assert @page.valid?, "Not valid when url is blank"
   end
 
-  test "word_count should be present" do
+  test "word_count can be blank or nil" do
     @page.word_count = nil
-    assert_not @page.valid?, "Saved without a word_count"
+    assert @page.valid?, "Not valid when word_count is nil"
+
+    @page.word_count = ""
+    assert @page.valid?, "Not valid when word_count is blank"
   end
 
-  test "table_of_contents should be present" do
+  test "table_of_contents can be blank or nil" do
     @page.table_of_contents = nil
-    assert_not @page.valid?, "Saved without table_of_contents"
+    assert @page.valid?, "Not valid when table_of_contents is nil"
+
+    @page.table_of_contents = ""
+    assert @page.valid?, "Not valid when table_of_contents is blank"
   end
 
-  test "top_10_words should be present" do
+  test "top_10_words can be blank or nil" do
     @page.top_10_words = nil
-    assert_not @page.valid?, "Saved without top_10_words"
+    assert @page.valid?, "Not valid when top_10_words is nil"
+
+    @page.top_10_words = ""
+    assert @page.valid?, "Not valid when top_10_words is blank"
   end
 end

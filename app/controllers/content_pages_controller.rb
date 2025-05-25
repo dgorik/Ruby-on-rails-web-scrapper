@@ -1,11 +1,10 @@
 class ContentPagesController < ApplicationController
-
   def create
     result = PageAnalyzer.call(params[:url])
 
     if result[:error]
-        flash[:alert] = result[:error]
-        return redirect_to root_path
+      flash[:alert] = result[:error]
+      return redirect_to root_path
     end
 
     @page_analysis = ContentPage.create!(
@@ -15,17 +14,11 @@ class ContentPagesController < ApplicationController
       top_10_words: result[:top_10_words],
       table_of_contents: result[:table_of_contents]
     )
-    
+
     redirect_to content_page_path(@page_analysis[:id])
-
-    #ask chat gpt if above with [:id] is okay - used to be just @page_analysis
-
-    # why are you using redirect and not render
-    
   end
 
   def show
-    # Here, fetch the last created PageAnalysis (or any logic you want)
     @content_page = ContentPage.find_by(id: params[:id])
     unless @content_page
       redirect_to root_path, alert: "No page analysis found"
@@ -33,4 +26,18 @@ class ContentPagesController < ApplicationController
   end
 end
 
-# You analyze each page once and store only the results (title, word count, etc.) instead of full HTML. This approach is better because it’s faster, uses less storage, reduces server load, and keeps the code simpler—making your app more efficient and easier to maintain.
+
+
+# PageAnalyzer Service:
+# - Checks if the URL is valid, gets the page’s HTML, cleans it up,
+#   and pulls out important info like the title, table of contents,
+#   word count, and top words.
+# - If something goes wrong (like a bad URL), it returns an error message
+#   that the controller shows using flash alerts.
+# - Keeps all the heavy analysis work separate from the controllers.
+
+# Why it matters:
+# - Helps keep controllers simple and easy to read.
+# - Makes it easier to test and fix the code.
+# - Lets us improve or add features later without breaking things.
+# - Shows helpful error messages to users when needed.

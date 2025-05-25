@@ -8,16 +8,14 @@ module Url
     SUPPORTED_SCHEMES = ["http", "https"]
 
     def self.valid?(url)
-      uri = parse(url)
-      # url_ok?(uri)
-    rescue 
+      parse(url)
+      true
+    rescue InvalidUrlError
       false
     end
 
     def self.parse(url)
-      raise InvalidUrlError, "URL can't be blank" if url.nil? || url.strip.empty? 
-
-      # mention why you can't realy on this alone on the client side
+      raise InvalidUrlError, "URL can't be blank" if url.nil? || url.strip.empty?
 
       uri = URI.parse(url)
 
@@ -37,24 +35,20 @@ module Url
 end
 
 
-# talk about  Ruby’s built-in URI module 
 
-#was doing a reg expression check at first but then noticed that those checks didn't validate url inputs below: 
+# This module uses Ruby’s built-in URI library to parse and validate URLs.
 
-#https://example.com:3000/path?query=1#section
-#https://sub.example.co.uk
+# Initially, a regex was used for validation but it failed on complex URLs like:
+#   https://example.com:3000/path?query=1#section
+#   https://sub.example.co.uk
 
-# Your current validation checks format and syntax — but the server might not exist or the URL might 404.
+# The current approach parses the URL and checks for:
+# - Presence of a valid scheme (http or https)
+# - A non-empty host/domain name
+# - Proper overall URL format
 
-# Sending a real HTTP request (a HEAD or GET) to check the status code (like 200 OK) confirms the link is actually responding.
+# This validation only checks if the URL is correctly formed and syntactically valid.
 
-# talk about what client side check is validating
-
-
-# # Proper scheme (http:// or https://)
-
-# Valid domain characters
-
-# No illegal characters or spaces
-
-# Overall URL format correctness
+# In production, this logic might be adapted to validate specific URL formats or constraints.
+# For example, restricting URLs to a particular domain or path pattern:
+#   Only allowing URLs starting with "https://37signals.com/jobs"
