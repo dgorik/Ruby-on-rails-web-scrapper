@@ -56,8 +56,6 @@ module Extraction
         {
           title: link.text.strip,
           depth: link.ancestors('ul, ol').count,
-          href: link['href'],
-          fragment: link['href'][1..] # remove leading #
         }
       end
     end

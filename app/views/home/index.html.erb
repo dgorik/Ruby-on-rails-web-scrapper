@@ -19,7 +19,7 @@
         <% @content_pages.each do |page| %>
           <li>
             <%= link_to page.title, 
-                  history_page_path(page[:id]),  # Uses the named route
+                  history_page_path(page[:id]),
                   target: "_blank", 
                   rel: "noopener" %>
           </li>
@@ -30,5 +30,3 @@
     <% end %>
   </section>
 </main>
-
-#google what target: "_blank", rel: "noopener" %> do
