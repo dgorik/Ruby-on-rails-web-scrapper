@@ -26,8 +26,6 @@ class ContentPagesController < ApplicationController
   end
 end
 
-
-
 # PageAnalyzer Service:
 # - Checks if the URL is valid, gets the page’s HTML, cleans it up,
 #   and pulls out important info like the title, table of contents,
