@@ -26,7 +26,6 @@ module Url
       if uri.host.nil? || uri.host.strip.empty?
         raise InvalidUrlError, "Host is blank"
       end
-
       uri
     rescue URI::InvalidURIError => e
       raise InvalidUrlError, e.message

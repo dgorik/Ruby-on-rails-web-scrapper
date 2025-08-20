@@ -12,7 +12,7 @@ class Extraction::WordCounterTest < ActiveSupport::TestCase
     html = "<html><body>   </body></html>"
     doc = Nokogiri::HTML(html)
     result = Extraction::WordCounter.call(doc)
-    assert_equal "0", result
+    assert_equal 0, result
   end
 end
 
